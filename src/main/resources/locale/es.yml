@@ -1,6 +1,8 @@
 # the messages in this section can be customised for each rankup in rankups.yml.
 rankup:
-  requirements-not-met: "&cNo satisfaces los requisitos para seguir al siguiente rango."
+  requirements-not-met: |-
+    &cNecesitas lo siguiente para subir de rango:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&eEstás en el último rango."
   # set to an empty string, ie: success-public: ""
   # to hide that message.
@@ -76,7 +78,9 @@ rankup:
     plural: "&cTienes que esperar {{seconds_left}} segundos más para subir de rango otra vez."
 # prestige messages can also be customised
 prestige:
-  requirements-not-met: "&cNecesitas {{rank.requirement('money').total | simple}} más dinero para prestigiar."
+  requirements-not-met: |-
+    &cNecesitas lo siguiente para prestigiar:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&eYa estás en el prestigio más alto."
 
   success-public: "&a{{player}} &eha prestigiado a: &d{{next.rank}}"
@@ -116,3 +120,39 @@ prestige:
 
 not-high-enough: "&c¡No puedes prestigiar a tu rango!"
 not-in-ladder: "&cPerdón, pero no hemos podido encontrar rangos en los grupos que perteneces. Usa /ranks para ver los rangos."
+
+requirement-names:
+  money: Dinero
+  moneyh: Dinero
+  xp-level: Nivel de XP
+  xp-levelh: Nivel de XP
+  playtime-minutes: Tiempo jugado (minutos)
+  advancement: Logro
+  group: Grupo
+  permission: Permiso
+  placeholder: Placeholder
+  world: Mundo
+  block-break: Bloques Rotos
+  player-kills: Muertes de Jugadores
+  mob-kills: Muertes de Mobs
+  total-mob-kills: Total de Muertes de Mobs
+  item: Objeto
+  itemh: Objeto
+  use-item: Objeto Usado
+  craft-item: Objeto Fabricado
+  mcmmo: Nivel de Habilidad mcMMO
+  mcmmo-power-level: Nivel de Poder mcMMO
+  advancedachievements-achievement: Logro
+  advancedachievements-total: Total de Logros
+  votingplugin-votes: Votos
+  votingplugin-points: Puntos de Voto
+  votingplugin-pointsh: Puntos de Voto
+  towny-resident: Residente Towny
+  towny-mayor: Alcalde Towny
+  towny-mayor-residents: Residentes de la Ciudad
+  towny-king: Rey Towny
+  towny-king-residents: Residentes de la Nación
+  towny-king-towns: Ciudades de la Nación
+  tokenmanager-tokens: Tokens
+  tokenmanager-tokensh: Tokens
+  superbvote-votes: Votos

@@ -1,6 +1,8 @@
 # 这部分的信息能在 rankups.yml 对不同的段位进行自定义。
 rankup:
-  requirements-not-met: "&c您需要 {{rank.requirement('money').total | simple}} 游戏币才能晋级。"
+  requirements-not-met: |-
+    &c您需要以下条件才能晋级：{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&e您目前已处于段位的顶端。"
   # 想设置字符串为空？ 
   # 一个例子: success-public: ""
@@ -79,7 +81,9 @@ rankup:
     plural: "&c您必须等待 {{seconds_left}} 秒才能进行晋升段位等级操作。"
 # 声望信息也可以定制
 prestige:
-  requirements-not-met: "&c您需要 {{rank.requirement('money').total | simple}} 游戏币才能进行声望等级升级。"
+  requirements-not-met: |-
+    &c您需要以下条件才能进行声望等级升级：{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&e您目前已经处在最高的声望等级了。"
 
   success-public: "&a{{player}} &e已经晋升至: &d{{next.rank}}"
@@ -118,3 +122,39 @@ prestige:
 
 not-high-enough: "&c您无法在您当前等级上进行声望晋升!"
 not-in-ladder: "&c抱歉，我们找不到您所在小组的任何段位等级。使用 /ranks 列出所有段位等级。"
+
+requirement-names:
+  money: 金钱
+  moneyh: 金钱
+  xp-level: 经验等级
+  xp-levelh: 经验等级
+  playtime-minutes: 游戏时间（分钟）
+  advancement: 进度
+  group: 组
+  permission: 权限
+  placeholder: 占位符
+  world: 世界
+  block-break: 破坏方块
+  player-kills: 击杀玩家
+  mob-kills: 击杀生物
+  total-mob-kills: 总击杀生物数
+  item: 物品
+  itemh: 物品
+  use-item: 使用物品
+  craft-item: 合成物品
+  mcmmo: mcMMO 技能等级
+  mcmmo-power-level: mcMMO 能量等级
+  advancedachievements-achievement: 成就
+  advancedachievements-total: 总成就数
+  votingplugin-votes: 票数
+  votingplugin-points: 投票积分
+  votingplugin-pointsh: 投票积分
+  towny-resident: Towny 居民
+  towny-mayor: Towny 市长
+  towny-mayor-residents: 城镇居民数
+  towny-king: Towny 国王
+  towny-king-residents: 国家居民数
+  towny-king-towns: 国家城镇数
+  tokenmanager-tokens: 代币
+  tokenmanager-tokensh: 代币
+  superbvote-votes: 票数

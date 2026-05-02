@@ -1,6 +1,8 @@
 # As mensagens nessa sessão podem ser customizadas para cada rankup em rankups.yml.
 rankup:
-  requirements-not-met: "&cVocê {{rank.requirement('money').total | simple}} para poder dar subir de rank."
+  requirements-not-met: |-
+    &cVocê precisa do seguinte para subir de rank:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&eVocê já está no maior rank."
   # coloque como uma String vazia, ex: success-public: ""
   # para ocultar a mensagem.
@@ -62,7 +64,9 @@ rankup:
 # prestige messages can also be customised
 # Mensagens de prestígio também podem ser customizadas
 prestige:
-  requirements-not-met: "&cVocê precisa {{rank.requirement('money').total | simple}} para dar prestigiar."
+  requirements-not-met: |-
+    &cVocê precisa do seguinte para prestigiar:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&eVocê está no maior prestígio."
 
   success-public: "&a{{player}} &esubiu de prestígio para: &d{{next.rank}}"
@@ -104,3 +108,39 @@ prestige:
 
 not-high-enough: "&cVocê não pode subir de prestígio nesse rank!"
 not-in-ladder: "&cDesculpa, não conseguimos achar nenhum rank para você subir."
+
+requirement-names:
+  money: Dinheiro
+  moneyh: Dinheiro
+  xp-level: Nível de XP
+  xp-levelh: Nível de XP
+  playtime-minutes: Tempo jogado (minutos)
+  advancement: Conquista
+  group: Grupo
+  permission: Permissão
+  placeholder: Placeholder
+  world: Mundo
+  block-break: Blocos Quebrados
+  player-kills: Kills de Jogadores
+  mob-kills: Kills de Mobs
+  total-mob-kills: Total de Kills de Mobs
+  item: Item
+  itemh: Item
+  use-item: Item Usado
+  craft-item: Item Fabricado
+  mcmmo: Nível de Habilidade mcMMO
+  mcmmo-power-level: Nível de Poder mcMMO
+  advancedachievements-achievement: Conquista
+  advancedachievements-total: Total de Conquistas
+  votingplugin-votes: Votos
+  votingplugin-points: Pontos de Voto
+  votingplugin-pointsh: Pontos de Voto
+  towny-resident: Residente Towny
+  towny-mayor: Prefeito Towny
+  towny-mayor-residents: Residentes da Cidade
+  towny-king: Rei Towny
+  towny-king-residents: Residentes da Nação
+  towny-king-towns: Cidades da Nação
+  tokenmanager-tokens: Tokens
+  tokenmanager-tokensh: Tokens
+  superbvote-votes: Votos

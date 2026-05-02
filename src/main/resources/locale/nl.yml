@@ -1,6 +1,8 @@
 # De berichten in deze afdeling kunnen worden aangepast voor elke Rankup in rankups.yml
 rankup:
-  requirements-not-met: "&cJe hebt {{rank.requirement('money').total | simple }} geld nodig om te ranken."
+  requirements-not-met: |-
+    &cJe hebt het volgende nodig om te ranken:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&eJe bent op de hoogste rang."
   # Zet de string leeg, bijvoorbeeld: success-public: ""
   # Om het bericht te verbergen.
@@ -77,7 +79,9 @@ rankup:
     plural: "&cJe moet {{seconds_left}} secondes wachten om weer te ranken."
 # Prestige berichten kunnen ook worden aangepast.
 prestige:
-  requirements-not-met: "&cJe hebt {{rank.requirement('money').total | simple}} geld nodig om te prestigen."
+  requirements-not-met: |-
+    &cJe hebt het volgende nodig om te prestigen:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&eJe bent op de hoogste prestige."
 
   success-public: "&a{{player}} &eis geprestiged naar: &d{{next.rank}}"
@@ -116,3 +120,39 @@ prestige:
 
 not-high-enough: "&cJe kan niet prestigen in jouw rang!"
 not-in-ladder: "&cSorry, maar we konden geen rangen vinden voor de group(en) waar jij in zit. Gebruik /ranks om de lijst van rangen te weergeven."
+
+requirement-names:
+  money: Geld
+  moneyh: Geld
+  xp-level: XP Niveau
+  xp-levelh: XP Niveau
+  playtime-minutes: Speeltijd (minuten)
+  advancement: Voortgang
+  group: Groep
+  permission: Toestemming
+  placeholder: Placeholder
+  world: Wereld
+  block-break: Gebroken Blokken
+  player-kills: Speler Kills
+  mob-kills: Mob Kills
+  total-mob-kills: Totale Mob Kills
+  item: Item
+  itemh: Item
+  use-item: Gebruikt Item
+  craft-item: Gemaakt Item
+  mcmmo: mcMMO Vaardigheidsniveau
+  mcmmo-power-level: mcMMO Krachtniveau
+  advancedachievements-achievement: Prestatie
+  advancedachievements-total: Totale Prestaties
+  votingplugin-votes: Stemmen
+  votingplugin-points: Stempunten
+  votingplugin-pointsh: Stempunten
+  towny-resident: Towny Inwoner
+  towny-mayor: Towny Burgemeester
+  towny-mayor-residents: Stadsinwoners
+  towny-king: Towny Koning
+  towny-king-residents: Natieninwoners
+  towny-king-towns: Natiensteden
+  tokenmanager-tokens: Tokens
+  tokenmanager-tokensh: Tokens
+  superbvote-votes: Stemmen

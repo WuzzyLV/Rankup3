@@ -1,6 +1,8 @@
 # Сообщения в этой секции могут быть изменены для каждого повышения уровня в rankups.yml
 rankup:
-  requirements-not-met: "&cВам нужно ещё {{rank.requirement('money').total | simple}} денег для повышения уровня."
+  requirements-not-met: |-
+    &cВам нужно следующее для повышения ранга:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&eУ Вас уже самый высокий ранг."
   # Оставьте это поле пустым, чтобы скрыть сообщение (success-public: '')
   success-public: "&eРанг игрока &a{{player}} &eбыл повышен до: &d{{next.rank}}"
@@ -59,7 +61,9 @@ rankup:
     plural: "&cПожалуйста, подождите {{seconds_left}} сек., чтобы повысить ранг снова."
 # Сообщения престижа тоже могут быть изменены
 prestige:
-  requirements-not-met: "&cВам нужно {{rank.requirement('money').total | simple}} денг для повышения престижа."
+  requirements-not-met: |-
+    &cВам нужно следующее для повышения престижа:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&eУ Вас уже самый высокий уровень престижа."
 
   success-public: "Престиж игрока &a{{player}} &eповышен в: &d{{next.rank}}"
@@ -101,3 +105,39 @@ prestige:
 
 not-high-enough: "&cВы не можете поднять уровень престижа в этом ранге"
 not-in-ladder: "&cПростите, но мне не можем найти какие-нибудь повышения для Вашей группы."
+
+requirement-names:
+  money: Деньги
+  moneyh: Деньги
+  xp-level: Уровень XP
+  xp-levelh: Уровень XP
+  playtime-minutes: Время в игре (минуты)
+  advancement: Достижение
+  group: Группа
+  permission: Разрешение
+  placeholder: Плейсхолдер
+  world: Мир
+  block-break: Сломанные блоки
+  player-kills: Убийства игроков
+  mob-kills: Убийства мобов
+  total-mob-kills: Всего убийств мобов
+  item: Предмет
+  itemh: Предмет
+  use-item: Использованный предмет
+  craft-item: Скрафченный предмет
+  mcmmo: Уровень навыка mcMMO
+  mcmmo-power-level: Уровень силы mcMMO
+  advancedachievements-achievement: Достижение
+  advancedachievements-total: Всего достижений
+  votingplugin-votes: Голоса
+  votingplugin-points: Очки голосования
+  votingplugin-pointsh: Очки голосования
+  towny-resident: Житель Towny
+  towny-mayor: Мэр Towny
+  towny-mayor-residents: Жители города
+  towny-king: Король Towny
+  towny-king-residents: Жители нации
+  towny-king-towns: Города нации
+  tokenmanager-tokens: Токены
+  tokenmanager-tokensh: Токены
+  superbvote-votes: Голоса

@@ -1,12 +1,14 @@
 package sh.okx.rankup.messages.pebble;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import sh.okx.rankup.RankupPlugin;
 import sh.okx.rankup.messages.MessageBuilder;
@@ -37,6 +39,12 @@ public class PebbleMessageBuilder implements MessageBuilder {
       }
       return ranks;
     });
+
+    ConfigurationSection reqNamesSection = plugin.getMessages().getConfigurationSection("requirement-names");
+    Map<String, Object> requirementNames = reqNamesSection != null
+        ? reqNamesSection.getValues(false)
+        : Collections.emptyMap();
+    context.put("requirementNames", requirementNames);
   }
 
   @Override
@@ -85,7 +93,10 @@ public class PebbleMessageBuilder implements MessageBuilder {
     if (sender instanceof Player) {
       player = (Player) sender;
     }
-    sender.sendMessage(processor(player).process(message));
+    String processed = processor(player).process(message);
+    for (String line : processed.split("\n")) {
+      sender.sendMessage(line);
+    }
   }
 
   @Override

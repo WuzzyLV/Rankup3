@@ -1,6 +1,8 @@
 #traduzione italiana del locale per rankup
 rankup:
-  requirements-not-met: "&cHai bisogno di {{rank.requirement('money').total | simple}} soldi per avanzare di rank."
+  requirements-not-met: |-
+    &cHai bisogno di quanto segue per avanzare di rank:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&eSei al rank più alto."
   # imposta stringa vuota per nascondere il messaggio
   success-public: "&a{{player}} &e\u00E8 avanzato di rank a: &d{{next.rank}}"
@@ -76,7 +78,9 @@ rankup:
     plural: "&cDevi aspettare ancora {{seconds_left}} secondi per avanzare di rank."
 # messaggi prestige
 prestige:
-  requirements-not-met: "&cHai bisogno di {{rank.requirement('money').total | simple}} soldi per effettuare un prestige."
+  requirements-not-met: |-
+    &cHai bisogno di quanto segue per effettuare un prestige:{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&eSei al prestige più alto."
 
   success-public: "&a{{player}} &eha effettuato un prestige a: &d{{next.rank}}"
@@ -113,3 +117,39 @@ prestige:
 
 not-high-enough: "&cNon puoi effettuare un prestige al tuo rank!"
 not-in-ladder: "&cNon riusciamo a trovare nessun avanzamento di rank per il tuo gruppo. Scrivi /ranks per ottenere una lista degli avanzamenti disponibili."
+
+requirement-names:
+  money: Soldi
+  moneyh: Soldi
+  xp-level: Livello XP
+  xp-levelh: Livello XP
+  playtime-minutes: Tempo di gioco (minuti)
+  advancement: Avanzamento
+  group: Gruppo
+  permission: Permesso
+  placeholder: Placeholder
+  world: Mondo
+  block-break: Blocchi Rotti
+  player-kills: Uccisioni Giocatori
+  mob-kills: Uccisioni Mob
+  total-mob-kills: Totale Uccisioni Mob
+  item: Oggetto
+  itemh: Oggetto
+  use-item: Oggetto Usato
+  craft-item: Oggetto Craftato
+  mcmmo: Livello Abilità mcMMO
+  mcmmo-power-level: Livello Potere mcMMO
+  advancedachievements-achievement: Traguardo
+  advancedachievements-total: Totale Traguardi
+  votingplugin-votes: Voti
+  votingplugin-points: Punti Voto
+  votingplugin-pointsh: Punti Voto
+  towny-resident: Residente Towny
+  towny-mayor: Sindaco Towny
+  towny-mayor-residents: Residenti della Città
+  towny-king: Re Towny
+  towny-king-residents: Residenti della Nazione
+  towny-king-towns: Città della Nazione
+  tokenmanager-tokens: Token
+  tokenmanager-tokensh: Token
+  superbvote-votes: Voti

@@ -1,6 +1,8 @@
 # the messages in this section can be customised for each rankup in rankups.yml.
 rankup:
-  requirements-not-met: "&cIl vous faut {{rank.requirement('money').total | simple}} d'argent pour passer au rang suivant."
+  requirements-not-met: |-
+    &cIl vous faut les éléments suivants pour passer au rang suivant :{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-rankup: "&eVous avez atteint le rang maximum."
   # set to an empty string, ie: success-public: ""
   # to hide that message.
@@ -59,7 +61,9 @@ rankup:
     plural: "&cVous devez attendre encore {{seconds_left}} secondes pour de nouveau passer un rang."
 # prestige messages can also be customised
 prestige:
-  requirements-not-met: "&cIl vous faut {{rank.requirement('money').total | simple}} d'argent pour passer au rang suivant."
+  requirements-not-met: |-
+    &cIl vous faut les éléments suivants pour passer au prestige suivant :{% for req in rank.requirements %}{% if not req.done %}
+    &c ✗ &f{% if req.total > 1 %}{{ req.remaining | number }} {% endif %}{{ requirementNames[req.name] | default(req.name) }}{% endif %}{% endfor %}
   no-prestige: "&eVous avez atteint le prestige maximum."
 
   success-public: "&a{{player}} &eest passé(e) au prestige: &d{{next.rank}}"
@@ -101,3 +105,39 @@ prestige:
 
 not-high-enough: "&cVous ne pouvez pas passer de prestige à votre rang !"
 not-in-ladder: "&cDésolé, mais nous n'avons pas trouvé de rang pour le(s) groupe(s) dans lequel(s) vous êtes. Tapez /ranks pour voir la liste des rangs."
+
+requirement-names:
+  money: Argent
+  moneyh: Argent
+  xp-level: Niveau XP
+  xp-levelh: Niveau XP
+  playtime-minutes: Temps de jeu (minutes)
+  advancement: Progrès
+  group: Groupe
+  permission: Permission
+  placeholder: Placeholder
+  world: Monde
+  block-break: Blocs Cassés
+  player-kills: Kills de Joueurs
+  mob-kills: Kills de Mobs
+  total-mob-kills: Total de Kills de Mobs
+  item: Objet
+  itemh: Objet
+  use-item: Objet Utilisé
+  craft-item: Objet Fabriqué
+  mcmmo: Niveau de Compétence mcMMO
+  mcmmo-power-level: Niveau de Puissance mcMMO
+  advancedachievements-achievement: Succès
+  advancedachievements-total: Total de Succès
+  votingplugin-votes: Votes
+  votingplugin-points: Points de Vote
+  votingplugin-pointsh: Points de Vote
+  towny-resident: Résident Towny
+  towny-mayor: Maire Towny
+  towny-mayor-residents: Résidents de la Ville
+  towny-king: Roi Towny
+  towny-king-residents: Résidents de la Nation
+  towny-king-towns: Villes de la Nation
+  tokenmanager-tokens: Jetons
+  tokenmanager-tokensh: Jetons
+  superbvote-votes: Votes

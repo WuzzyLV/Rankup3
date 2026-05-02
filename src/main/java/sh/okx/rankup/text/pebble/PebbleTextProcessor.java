@@ -1,14 +1,18 @@
 package sh.okx.rankup.text.pebble;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.AbstractExtension;
 import com.mitchellbosecke.pebble.extension.Filter;
 import com.mitchellbosecke.pebble.loader.StringLoader;
+import com.mitchellbosecke.pebble.template.EvaluationContext;
+import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import sh.okx.rankup.messages.pebble.InvalidRequirementException;
@@ -47,6 +51,20 @@ public class PebbleTextProcessor implements TextProcessor {
               DecimalFormat simpleFormat = options.getSimpleFormat();
               if (simpleFormat != null) filters.put("simple", new DecimalFormatFilter(simpleFormat));
             }
+            filters.put("number", new Filter() {
+              @Override
+              public List<String> getArgumentNames() { return null; }
+              @Override
+              public Object apply(Object input, Map<String, Object> args, PebbleTemplate self,
+                  EvaluationContext context, int lineNumber) throws PebbleException {
+                if (input == null) return null;
+                if (!(input instanceof Number)) return input;
+                double value = ((Number) input).doubleValue();
+                return value == Math.floor(value) && !Double.isInfinite(value)
+                    ? String.valueOf((long) value)
+                    : String.valueOf(value);
+              }
+            });
             return filters;
           }
         })

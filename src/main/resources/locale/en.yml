@@ -1,35 +1,45 @@
 # the messages in this section can be customised for each rankup in rankups.yml.
 rankup:
-  requirements-not-met: "&cYou need {{rank.requirement('money').total | money}} money to rankup."
-  no-rankup: "&eYou are at the highest rank."
+  # requirements-not-met: "&#F15151You need &#60B54E{{rank.requirement('money').total | money}} ₵&#F15151 or &#60B54Eother requirements&#F15151 to rankup."
+  requirements-not-met: |-
+    &#60B54ERequirements not met to rankup to &#ddac46{{next.rank}}&#60B54E:
+    {% for req in rank.requirements %}
+    {% if not req.done %}
+    &#a9aba3 ☐ {% if req.total > 1 %}&#a9aba3{{ req.total| number  }}&#639f5b/&#a9aba3{{ req.progress| number  }}{% endif %} {{ requirementNames[req.name] | default(req.name) }}
+    {% else %}
+    &#639f5b ☑ {% if req.total > 1 %}&#a9aba3{{ req.total| number  }}&#639f5b/&#a9aba3{{ req.progress| number  }}{% endif %} {{ requirementNames[req.name] | default(req.name) }}
+    {% endif %}
+    
+    {% endfor %}
+
+  no-rankup: "&#ddac46You are at the highest rank."
   # set to an empty string, ie: success-public: ""
   # to hide that message.
-  success-public: "&a{{player}} &ehas ranked up to: &d{{next.rank}}"
-  success-private: "&aYou have ranked up to: &d{{next.rank}}"
+  success-public: "&#60B54E&l{{player}} &#ddac46has ranked up to: &#60B54E{{next.rank}}"
+  success-private: "&#ddac46You have ranked up to: &#60B54E{{next.rank}}"
   # used for the text confirmation
   confirmation: |-
-    &eAre you sure you want to rankup to &a{{next.rank}}&e?
-    &eType &c/rankup &eagain to confirm.
-  must-prestige: "&cYou must prestige to /rankup further!"
-
+    &#ddac46Are you sure you want to rankup to &#60B54E{{next.rank}}&#ddac46?
+    &#ddac46Type &#60B54E/rankup &#ddac46again to confirm.
+  must-prestige: "&#F15151You must prestige to /rankup further!"
   gui:
     rows: 1
-    title: "Rankup to {{next.rank}}"
+    title: "Rankup to &l{{next.rank}}"
     rankup:
       material: EMERALD_BLOCK
       # index can be separated by spaces to show in multiple groups
       # for example: 0-3 9-12 18-21
       # you can also just use a single number instead of a range.
       index: 0-3
-      name: '&a&lConfirm'
+      name: "&#598C58&lConfirm"
       # lore is optional
-      lore: '&6Rankup to &b{{next.rank}}'
+      lore: "&#598C58Rankup to &b&l{{next.rank}}"
     cancel:
       material: REDSTONE_BLOCK
       index: 5-8
-      name: '&c&lCancel'
+      name: "&#F15151&lCancel"
     fill:
-      name: ' '
+      name: " "
       # if you are using a 1.8-1.12 and you want to change this
       # you can use MATERIAL:data, for example STAINED_GLASS_PANE:8
       # this works for both the rankup and cancel blocks as well
@@ -42,17 +52,16 @@ rankup:
     width: 7
     complete:
       material: GREEN_STAINED_GLASS_PANE
-      name: "&aRank &7{{next.rank}} &a(completed)"
+      name: "&#598C58Rank &7&l{{next.rank}} &#598C58(completed)"
     current:
       material: ORANGE_STAINED_GLASS_PANE
-      name: "&dRankup to &7{{next.rank}}"
+      name: "&dRankup to &7&l{{next.rank}}"
     incomplete:
       material: RED_STAINED_GLASS_PANE
-      name: "&cRank &7{{next.rank}} &c(requires rankup)"
+      name: "&#F15151Rank &7&l{{next.rank}} &#F15151(requires rankup)"
     fill:
       material: BLACK_STAINED_GLASS_PANE
-      name: ' '
-
+      name: " "
 
   # you can (and probably should) you override these in rankups.yml
   # to show the specific requirements for each rank.
@@ -61,59 +70,99 @@ rankup:
   # {{rank.requirement('money').total | simple}} and {MONEY_NEEDED} are different from {AMOUNT money} and {AMOUNT_NEEDED money} in that they use a different format.
   # here is an example of showing the requirements for just money:
   #list:
-  #  complete: "&7{{rank.rank}} &8\xbb &7{{next.rank}} &efor &7${{rank.requirement('money').total | simple}}"
-  #  current: "&c{{rank.rank}} &e\xbb &c{{next.rank}} &efor &a${{rank.requirement('money').total | simple}} &e{PERCENT_DONE money}%"
-  #  incomplete: "&r{{rank.rank}} &e\xbb &r{{next.rank}} &efor &a${{rank.requirement('money').total | simple}}"
+  #  complete: "&7{{rank.rank}} &8\xbb &7&l{{next.rank}} &#ddac46for &7${{rank.requirement('money').total | simple}}"
+  #  current: "&#F15151{{rank.rank}} &#ddac46\xbb &#F15151&l{{next.rank}} &#ddac46for &#598C58${{rank.requirement('money').total | simple}} &#ddac46{PERCENT_DONE money}%"
+  #  incomplete: "&r{{rank.rank}} &#ddac46\xbb &r&l{{next.rank}} &#ddac46for &#598C58${{rank.requirement('money').total | simple}}"
   list:
-    complete: "&7{{rank.rank}} &8\xbb &7{{next.rank}}"
-    current: "&c{{rank.rank}} &e\xbb &c{{next.rank}}"
-    incomplete: "&r{{rank.rank}} &e\xbb &r{{next.rank}}"
+    complete: "&8&m{{rank.rank}} &m\xbb &8&m&l{{next.rank}}"
+    current: "&#598C58&l{{rank.rank}} &#ddac46&l\xbb &#598C58&l&l{{next.rank}}"
+    incomplete: "&7{{rank.rank}} &#ddac46\xbb &7&l{{next.rank}}"
     # an empty string disables the header/footer
-    header: ""
+    header: "&#598C58&lRanks:"
     footer: ""
   # sent when a player tries to rankup when they are on cooldown
   cooldown:
-    singular: "&cYou must wait {{seconds_left}} more second to rankup again."
-    plural: "&cYou must wait {{seconds_left}} more seconds to rankup again."
+    singular: "&#F15151You must wait {{seconds_left}} more second to rankup again."
+    plural: "&#F15151You must wait {{seconds_left}} more seconds to rankup again."
 # prestige messages can also be customised
 prestige:
-  requirements-not-met: "&cYou need {{rank.requirement('money').total | money}} money to prestige."
-  no-prestige: "&eYou are at the highest prestige."
+  requirements-not-met: "&#F15151You need {{rank.requirement('money').total | money}} ₵ to prestige."
+  no-prestige: "&#ddac46You are at the highest prestige."
 
-  success-public: "&a{{player}} &ehas prestiged to: &d{{next.rank}}"
-  success-private: "&aYou have prestiged to: &d{{next.rank}}"
+  success-public: "&#60B54E{{player}} &#ddac46has prestiged to: &d&l{{next.rank}}"
+  success-private: "&#598C58You have prestiged to: &d&l{{next.rank}}"
 
   confirmation: |-
-    &eAre you sure you want to prestige to &a{{next.rank}}&e?
-    &eType &c/prestige &eagain to confirm.
+    &#ddac46Are you sure you want to prestige to &#60B54E{{next.rank}}&#ddac46?
+    &#ddac46Type &#60B54E/prestige &#ddac46again to confirm.
 
   gui:
-    title: "Prestige to {{next.rank}}"
+    title: "Prestige to &l{{next.rank}}"
     rankup:
       material: GOLD_BLOCK
       index: 0-3
-      name: '&a&lConfirm'
-      lore: '&6Prestige to &b{{next.rank}}'
+      name: "&#598C58&lConfirm"
+      lore: "&#598C58Prestige to &b&l{{next.rank}}"
     cancel:
       material: REDSTONE_BLOCK
       index: 5-8
-      name: '&c&lCancel'
+      name: "&#F15151&lCancel"
     fill:
-      name: ' '
+      name: " "
       # if you are using a 1.8-1.12 and you want to change this
       # you can use MATERIAL:data, for example STAINED_GLASS_PANE:8
       # this works for both the rankup and cancel blocks as well
       material: BLACK_STAINED_GLASS_PANE
 
   list:
-    complete: "&7{{rank.rank}} &8\xbb &7{{next.rank}}"
-    current: "&c{{rank.rank}} &e\xbb &c{{next.rank}}"
-    incomplete: "&r{{rank.rank}} &e\xbb &r{{next.rank}}"
+    complete: "&m&7{{rank.rank}} &8\xbb &7&l{{next.rank}}"
+    current: "&#60B54E{{rank.rank}} &#ddac46\xbb &#60B54E{{next.rank}}"
+    incomplete: "&r{{rank.rank}} &#ddac46\xbb &r&l{{next.rank}}"
     header: ""
     footer: ""
   cooldown:
-    singular: "&cYou must wait {{seconds_left}} second to prestige again."
-    plural: "&cYou must wait {{seconds_left}} more seconds to prestige again."
+    singular: "&#F15151You must wait {{seconds_left}} second to prestige again."
+    plural: "&#F15151You must wait {{seconds_left}} more seconds to prestige again."
 
-not-high-enough: "&cYou cannot prestige at your rank!"
-not-in-ladder: "&cSorry, but we could not find any rankups for the group(s) you are in. Use /ranks to list the rankups."
+not-high-enough: "&#F15151You cannot prestige at your rank!"
+not-in-ladder: "&#F15151Sorry, but we could not find any rankups for the group(s) you are in. Use /ranks to list the rankups."
+
+
+# Display names for requirements used in the requirements-not-met message.
+# The key is the requirement's internal name as used in rankups.yml.
+# You can add entries for custom or third-party requirements here as well.
+requirement-names:
+  money: Coins
+  moneyh: Coins
+  xp-level: Levels
+  xp-levelh : Levels
+  playtime-minutes: Playtime (minutes)
+  advancement: Advancement
+  group: Group
+  permission: Permission
+  placeholder: Placeholder
+  world: World
+  block-break: Blocks Broken
+  player-kills: Player Kills
+  mob-kills: Mob Kills
+  total-mob-kills: Total Mob Kills
+  item: Item
+  itemh: Item
+  use-item: Item Used
+  craft-item: Item Crafted
+  mcmmo: mcMMO Skill Level
+  mcmmo-power-level: mcMMO Power Level
+  advancedachievements-achievement: Achievement
+  advancedachievements-total: Total Achievements
+  votingplugin-votes: Votes
+  votingplugin-points: Vote Points
+  votingplugin-pointsh: Vote Points
+  towny-resident: Towny Resident
+  towny-mayor: Towny Mayor
+  towny-mayor-residents: Town Residents
+  towny-king: Towny King
+  towny-king-residents: Nation Residents
+  towny-king-towns: Nation Towns
+  tokenmanager-tokens: Tokens
+  tokenmanager-tokensh: Tokens
+  superbvote-votes: Votes
